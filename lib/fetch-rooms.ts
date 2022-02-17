@@ -25,7 +25,7 @@ export function fetchRoomMock(config: RoomConfigMap): Promise<Room[]> {
           .then((res) => res.text())
           .then((data) => {
             fs.writeFileSync(filePath, data);
-            return <Room>{
+            return {
               id: room,
               floor: conf.floor,
               events: extractCalEvents(data),
@@ -34,7 +34,7 @@ export function fetchRoomMock(config: RoomConfigMap): Promise<Room[]> {
       }
 
       const data = fs.readFileSync(filePath).toString();
-      return Promise.resolve(<Room>{
+      return Promise.resolve({
         id: room,
         floor: conf.floor,
         events: extractCalEvents(data),
@@ -46,9 +46,14 @@ export function fetchRoomMock(config: RoomConfigMap): Promise<Room[]> {
 export function fetchRooms(config: RoomConfigMap): Promise<Room[]> {
   return Promise.all(
     Object.entries(config).map(([roomID, roomConfig]) => {
+      console.log("Fetching calendar for room: " + roomID);
       return fetch(buildCalendarUrl(roomID, roomConfig.urlId))
         .then((res) => res.text())
-        .then((data) => <Room>{ id: roomID, events: extractCalEvents(data) });
+        .then((data) => ({
+          id: roomID,
+          floor: roomConfig.floor,
+          events: extractCalEvents(data),
+        }));
     })
   );
 }
@@ -72,7 +77,7 @@ function extractCalEvents(rawData: string): Event[] {
       return isValidEvent && isWithingNextWeek;
     })
     .map((event) => {
-      return <Event>{
+      return {
         name: event.summary,
         description: event.description,
         location: event.location,

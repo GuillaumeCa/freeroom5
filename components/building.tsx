@@ -3,7 +3,6 @@ import { Floor } from "./floor";
 
 export function Building(props: { name: string; rooms: Room[] }) {
   const floors = buildFloors(props.rooms);
-  console.log(floors);
   return (
     <>
       <h2 className="text-3xl font-bold text-gray-700 mt-5">{props.name}</h2>

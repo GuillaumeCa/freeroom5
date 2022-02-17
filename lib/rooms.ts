@@ -83,10 +83,6 @@ export function roomStatus(date: Date, events: Event[]): RoomStatusInfo {
       return isSameDay(date, startTime) && isAfter(startTime, date);
     })
     .sort((a, b) => (a.time.start > b.time.start ? 1 : -1));
-  console.log(
-    new Date(),
-    filtered.map((f) => new Date(f.time.start))
-  );
 
   for (const event of filtered) {
     const start = new Date(event.time.start);
