@@ -71,7 +71,7 @@ function extractCalEvents(rawData: string): Event[] {
       .map((subcomp) => new ICAL.Event(subcomp))
       .filter((e) => {
         const isValidEvent =
-          e.summary !== "Férié" || !e.summary.startsWith("cours annulé");
+          e.summary !== "Férié" && !e.summary.startsWith("cours annulé");
 
         const startDate = e.startDate.toJSDate();
         const nextWeek = addWeeks(startOfDay(new Date()), 1);

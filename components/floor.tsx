@@ -1,3 +1,4 @@
+import { addMinutes } from "date-fns";
 import { Floor, Room } from "../lib/rooms";
 import { RoomInfo } from "./room-info";
 
@@ -11,6 +12,8 @@ function formatFloor(floor: number) {
   }
 }
 
+const createDate = (minutes: number) => addMinutes(new Date(), minutes);
+
 const testRoomAvailable: Room = {
   events: [
     {
@@ -18,8 +21,8 @@ const testRoomAvailable: Room = {
       description: "test description",
       location: "somewhere",
       time: {
-        start: new Date(2022, 1, 19, 15, 50, 0).getTime(),
-        end: new Date(2022, 1, 19, 16, 50, 0).getTime(),
+        start: createDate(-50).getTime(),
+        end: createDate(-10).getTime(),
       },
     },
   ],
@@ -34,8 +37,8 @@ const testRoomUnavailableFor: Room = {
       description: "test description",
       location: "somewhere",
       time: {
-        start: new Date(2022, 1, 18, 14, 50, 0).getTime(),
-        end: new Date(2022, 1, 18, 16, 50, 0).getTime(),
+        start: createDate(-10).getTime(),
+        end: createDate(1).getTime(),
       },
     },
   ],
@@ -46,12 +49,21 @@ const testRoomUnavailableFor: Room = {
 const testRoomAvailableFor: Room = {
   events: [
     {
+      name: "test name 2",
+      description: "test description 2",
+      location: "somewhere 2",
+      time: {
+        start: createDate(-10).getTime(),
+        end: createDate(1).getTime(),
+      },
+    },
+    {
       name: "test name",
       description: "test description",
       location: "somewhere",
       time: {
-        start: new Date(2022, 1, 18, 15, 50, 0).getTime(),
-        end: new Date(2022, 1, 18, 16, 50, 0).getTime(),
+        start: createDate(2).getTime(),
+        end: createDate(50).getTime(),
       },
     },
   ],

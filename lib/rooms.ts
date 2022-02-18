@@ -1,4 +1,4 @@
-import { isAfter, isBefore, isSameDay, isWithinInterval } from "date-fns";
+import { isBefore, isSameDay, isWithinInterval } from "date-fns";
 
 type Building = "NDC" | "NDL";
 
@@ -79,8 +79,7 @@ export function buildFloors(rooms: Room[]): Floor[] {
 export function roomStatus(date: Date, events: Event[]): RoomStatusInfo {
   const filtered = events
     .filter((e) => {
-      const startTime = new Date(e.time.start);
-      return isSameDay(date, startTime) && isAfter(startTime, date);
+      return isSameDay(date, new Date(e.time.start));
     })
     .sort((a, b) => (a.time.start > b.time.start ? 1 : -1));
 
