@@ -44,10 +44,10 @@ export const ROOM_CONFIG = {
       floor: 3,
       urlId: "7165D289E35F56674B4D8E412312EDD0",
     },
-    N39: {
-      floor: 3,
-      urlId: "88000209412DADF53FA6E61E0CEEBCE2",
-    },
+    // N39: {
+    //   floor: 3,
+    //   urlId: "88000209412DADF53FA6E61E0CEEBCE2",
+    // },
     N43: {
       floor: 4,
       urlId: "8F6B7DFEE50D732CE14B976B7DA93BA8",

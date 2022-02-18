@@ -47,44 +47,54 @@ export function fetchRooms(config: RoomConfigMap): Promise<Room[]> {
   return Promise.all(
     Object.entries(config).map(([roomID, roomConfig]) => {
       console.log("Fetching calendar for room: " + roomID);
-      return fetch(buildCalendarUrl(roomID, roomConfig.urlId))
-        .then((res) => res.text())
-        .then((data) => ({
-          id: roomID,
-          floor: roomConfig.floor,
-          events: extractCalEvents(data),
-        }));
+      return fetch(buildCalendarUrl(roomID, roomConfig.urlId)).then((res) => {
+        if (res.ok) {
+          return res.text().then((data) => ({
+            id: roomID,
+            floor: roomConfig.floor,
+            events: extractCalEvents(data),
+          }));
+        }
+
+        console.error("could not retrieve the calendar for room: ", roomID, "");
+        return null;
+      });
     })
-  );
+  ).then((rooms) => rooms.filter((room) => room !== null) as Room[]);
 }
 
 function extractCalEvents(rawData: string): Event[] {
-  const calData = ICAL.parse(rawData);
-  return new ICAL.Component(calData)
-    .getAllSubcomponents("vevent")
-    .map((subcomp) => new ICAL.Event(subcomp))
-    .filter((e) => {
-      const isValidEvent =
-        e.summary !== "Férié" || !e.summary.startsWith("cours annulé");
+  try {
+    const calData = ICAL.parse(rawData);
+    return new ICAL.Component(calData)
+      .getAllSubcomponents("vevent")
+      .map((subcomp) => new ICAL.Event(subcomp))
+      .filter((e) => {
+        const isValidEvent =
+          e.summary !== "Férié" || !e.summary.startsWith("cours annulé");
 
-      const startDate = e.startDate.toJSDate();
-      const nextWeek = addWeeks(startOfDay(new Date()), 1);
-      const isWithingNextWeek = isWithinInterval(startDate, {
-        start: new Date(),
-        end: nextWeek,
+        const startDate = e.startDate.toJSDate();
+        const nextWeek = addWeeks(startOfDay(new Date()), 1);
+        const isWithingNextWeek = isWithinInterval(startDate, {
+          start: new Date(),
+          end: nextWeek,
+        });
+
+        return isValidEvent && isWithingNextWeek;
+      })
+      .map((event) => {
+        return {
+          name: event.summary,
+          description: event.description,
+          location: event.location,
+          time: {
+            start: event.startDate.toUnixTime() * 1000,
+            end: event.endDate.toUnixTime() * 1000,
+          },
+        };
       });
-
-      return isValidEvent && isWithingNextWeek;
-    })
-    .map((event) => {
-      return {
-        name: event.summary,
-        description: event.description,
-        location: event.location,
-        time: {
-          start: event.startDate.toUnixTime() * 1000,
-          end: event.endDate.toUnixTime() * 1000,
-        },
-      };
-    });
+  } catch (error) {
+    console.error("failed parsing calendar", error, rawData);
+    throw error;
+  }
 }
