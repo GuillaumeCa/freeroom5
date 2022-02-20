@@ -7,7 +7,7 @@ import { ROOM_CONFIG } from "../lib/rooms-config";
 export default function NDC({ rooms }: { rooms: Room[] }) {
   return (
     <BaseLayout>
-      <Building name="NDC" rooms={rooms} />
+      <Building id="NDC" rooms={rooms} />
     </BaseLayout>
   );
 }
@@ -33,6 +33,6 @@ export async function getStaticProps() {
     // Next.js will attempt to re-generate the page:
     // - When a request comes in
     // - At most once every 10 seconds
-    revalidate: 3600, // 1h (In seconds)
+    revalidate: 12 * 3600, // 1h (In seconds)
   };
 }

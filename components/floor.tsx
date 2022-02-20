@@ -27,7 +27,7 @@ const testRoomAvailable: Room = {
     },
   ],
   floor: 1,
-  id: "AVAILABLE",
+  id: "N99",
 };
 
 const testRoomUnavailableFor: Room = {
@@ -43,32 +43,32 @@ const testRoomUnavailableFor: Room = {
     },
   ],
   floor: 1,
-  id: "UNAVAILABLE_FOR",
+  id: "N98",
 };
 
 const testRoomAvailableFor: Room = {
   events: [
-    {
-      name: "test name 2",
-      description: "test description 2",
-      location: "somewhere 2",
-      time: {
-        start: createDate(-10).getTime(),
-        end: createDate(1).getTime(),
-      },
-    },
+    // {
+    //   name: "test name 2",
+    //   description: "test description 2",
+    //   location: "somewhere 2",
+    //   time: {
+    //     start: createDate(-10).getTime(),
+    //     end: createDate(1).getTime(),
+    //   },
+    // },
     {
       name: "test name",
       description: "test description",
       location: "somewhere",
       time: {
-        start: createDate(2).getTime(),
+        start: createDate(-2).getTime(),
         end: createDate(50).getTime(),
       },
     },
   ],
   floor: 1,
-  id: "AVAILABLE_FOR",
+  id: "N97",
 };
 
 export function Floor({ floor }: { floor: Floor }) {

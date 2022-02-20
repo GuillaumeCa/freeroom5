@@ -1,16 +1,17 @@
-import { buildFloors, Room } from "../lib/rooms";
-import { Floor } from "./floor";
+import { buildingsConf } from "../lib/map.conf";
+import { Room } from "../lib/rooms";
+import { BuildingMap } from "./map";
+import { RoomList } from "./room-list";
 
-export function Building(props: { name: string; rooms: Room[] }) {
-  const floors = buildFloors(props.rooms);
+export function Building({ id, rooms }: { id: string; rooms: Room[] }) {
   return (
-    <>
-      <h2 className="text-3xl font-bold text-gray-700 mt-5">{props.name}</h2>
-      <div>
-        {floors.map((floor) => (
-          <Floor key={floor.level} floor={floor} />
-        ))}
+    <div className="flex">
+      <div className="w-full md:w-1/2">
+        <RoomList name={id} rooms={rooms} />
       </div>
-    </>
+      <div className="hidden md:block w-1/2 ml-[140px] mt-[100px]">
+        <BuildingMap config={buildingsConf[id]} rooms={rooms} />
+      </div>
+    </div>
   );
 }

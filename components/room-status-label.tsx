@@ -15,7 +15,7 @@ export function RoomStatusLabel({
     case RoomStatus.FREE_FOR:
       if (!event) return null;
       return (
-        <p>
+        <p className="text-right">
           Disponible pour{" "}
           <b>
             {formatDistance(new Date(event.time.start), new Date(), {
@@ -27,7 +27,7 @@ export function RoomStatusLabel({
     case RoomStatus.NOT_FREE:
       if (!event) return null;
       return (
-        <p>
+        <p className="text-right">
           Indisponible pour{" "}
           <b>
             {formatDistance(new Date(event.time.end), new Date(), {

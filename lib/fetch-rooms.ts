@@ -65,6 +65,7 @@ export function fetchRooms(config: RoomConfigMap): Promise<Room[]> {
 
 function extractCalEvents(rawData: string): Event[] {
   try {
+    const nextWeek = addWeeks(startOfDay(new Date()), 1);
     const calData = ICAL.parse(rawData);
     return new ICAL.Component(calData)
       .getAllSubcomponents("vevent")
@@ -74,13 +75,12 @@ function extractCalEvents(rawData: string): Event[] {
           e.summary !== "Férié" && !e.summary.startsWith("cours annulé");
 
         const startDate = e.startDate.toJSDate();
-        const nextWeek = addWeeks(startOfDay(new Date()), 1);
-        const isWithingNextWeek = isWithinInterval(startDate, {
+        const isWithinNextWeek = isWithinInterval(startDate, {
           start: new Date(),
           end: nextWeek,
         });
 
-        return isValidEvent && isWithingNextWeek;
+        return isValidEvent && isWithinNextWeek;
       })
       .map((event) => {
         return {

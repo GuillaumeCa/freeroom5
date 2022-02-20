@@ -1,6 +1,6 @@
 import { isBefore, isSameDay, isWithinInterval } from "date-fns";
 
-type Building = "NDC" | "NDL";
+export type Building = "NDC" | "NDL";
 
 interface TimeDuration {
   start: number;
