@@ -18,7 +18,9 @@ export function BaseLayout({ children }: { children: ReactNode }) {
       </Head>
       <Link href="/">
         <a>
-          <h1 className="mb-2 text-4xl font-bold text-blue-500">Freeroom</h1>
+          <h1 className="mb-2 text-4xl font-bold text-blue-500">
+            FreeRoom ISEP
+          </h1>
         </a>
       </Link>
       <p className="text-md text-gray-400">
