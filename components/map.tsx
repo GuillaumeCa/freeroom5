@@ -35,10 +35,6 @@ function RoomMap(props: {
   floor: PolyFloor | RectFloor;
   stroke: string;
 }) {
-  if (!props.room) {
-    return null;
-  }
-
   const { status } = useRoomStatus(props.room);
   const color =
     status === RoomStatus.NOT_FREE ? SECONDARY_COLOR : PRIMARY_COLOR;
@@ -52,6 +48,10 @@ function RoomMap(props: {
     height: pos.height,
     position: "absolute",
   };
+
+  if (!props.room) {
+    return null;
+  }
 
   return (
     <svg style={style}>

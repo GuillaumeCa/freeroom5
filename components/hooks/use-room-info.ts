@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { Room, roomStatus, RoomStatusInfo } from "../../lib/rooms";
+import { Room, RoomStatus, roomStatus, RoomStatusInfo } from "../../lib/rooms";
 
-export function useRoomStatus(room: Room): RoomStatusInfo {
+export function useRoomStatus(room?: Room): RoomStatusInfo {
   const [statusInfo, setStatusInfo] = useState<RoomStatusInfo>(() =>
-    roomStatus(new Date(), room.events)
+    room
+      ? roomStatus(new Date(), room.events)
+      : { status: RoomStatus.FREE, currentEvent: null }
   );
 
   useEffect(() => {
     let timer = setInterval(() => {
-      setStatusInfo(roomStatus(new Date(), room.events));
+      if (room) {
+        setStatusInfo(roomStatus(new Date(), room.events));
+      }
     }, 1000);
     return () => clearInterval(timer);
   }, [room]);
