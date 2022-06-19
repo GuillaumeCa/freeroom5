@@ -6,13 +6,10 @@ import { useRoomStatus } from "./hooks/use-room-info";
 import { RoomStatusLabel } from "./room-status-label";
 
 function getStatusColor(status: RoomStatus, highlight = false): string {
-  let statusColor = "bg-blue-500";
+  let statusColor = !highlight ? "bg-blue-500" : "hover:bg-blue-500/75";
   if (status === RoomStatus.NOT_FREE) {
     statusColor = !highlight ? "bg-gray-400" : "hover:bg-gray-400/75";
-  } else if (status === RoomStatus.FREE_FOR) {
-    statusColor = !highlight ? "bg-blue-500" : "hover:bg-blue-500/75";
   }
-
   return statusColor;
 }
 
@@ -25,8 +22,7 @@ export function RoomInfo({ room }: { room: Room }) {
       <div
         className={cls(
           getStatusColor(status),
-          "rounded-lg px-3 py-2",
-          status !== RoomStatus.FREE && "cursor-pointer",
+          "rounded-lg px-3 py-2 cursor-pointer",
           "text-white flex justify-between select-none",
           getStatusColor(status, true)
         )}
@@ -35,7 +31,9 @@ export function RoomInfo({ room }: { room: Room }) {
         <h4 className="leading-none font-bold text-2xl mr-2">{room.id}</h4>
         <RoomStatusLabel status={status} event={currentEvent} />
       </div>
-      {showEvent && currentEvent && <EventDetail event={currentEvent} />}
+      {showEvent && (
+        <EventDetail events={room.events} currentEvent={currentEvent} />
+      )}
     </div>
   );
 }
