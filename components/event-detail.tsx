@@ -39,7 +39,7 @@ export function EventDetail({
   if (incomingEvents.length === 0) {
     return (
       <div className="rounded-lg bg-gray-200 text-gray-500 px-3 py-2 mt-1">
-        Pas d'évènement à venir
+        Pas d&apos;évènement à venir
       </div>
     );
   }
