@@ -15,6 +15,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
         />
         <meta property="og:url" content="https://free-room-isep.ddns.net" />
         <meta property="og:image" content="%PUBLIC_URL%/NDL.jpg" />
+        <meta name="google-site-verification" content="0WzicPyQOuQOgEkd51O5m2cdBt7441CDi7MTajp4LOg" />
       </Head>
       <Link href="/">
         <a>
